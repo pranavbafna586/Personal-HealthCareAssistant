@@ -9,35 +9,11 @@ import random                   #generating random numbers,
 import smtplib          #simple way to send emails 
 import webbrowser       #opening URLs in web browsers.
 
-def send_otp():
-    global otp
-    otp = ''.join([str(random.randint(0, 9)) for i in range(4)])
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login('healtcareviit@gmail.com', 'kzhomhovkrpspjpr')
-    msg = 'Hello Your HealthCare OTP is ' + str(otp) + '\n' + 'Do not share OTP with anyone...'
-    server.sendmail('healthcareviit@gmail.com', email_input.get(), msg)
-    server.quit()
-    messagebox.showinfo('OTP Sent', 'OTP has been sent successfully to your email.')
-
-def handle_login():
-    email = email_input.get()
-    otpinput = otp_input.get()
-    if otpinput == otp:
-        messagebox.showinfo('Yayy', 'Login Successfully')
-        open_new_window()  # Open new window if login is successful
-    else:
-        messagebox.showerror('Error', 'Login Failed')
-
 def open_new_window():
     new_window = Toplevel()
     new_window.geometry('700x600')
     new_window.title('HealthCare')
-    # new_window.iconbitmap("D:\Python\Tkinter\icon.ico")
     root.withdraw()
-    # bg image
-    bg_label = Label(new_window, image=bg_photo)
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
     # Add widgets to the new window as desired
     appointments_btn = Button(new_window, text='Book Appointments', bg='#0d2b45', fg='white',command=handle_appointment)
     appointments_btn.pack(pady=(50, 20), padx=100)
@@ -79,10 +55,7 @@ def handle_appointment():
     app_book.geometry('300x300')
     # app_book.iconbitmap("D:\Python\Tkinter\images.ico")
     #bg image
-    bg_label = Label(app_book, image=bg_photo)
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-
-    # Create the "Go to Website" button
+       # Create the "Go to Website" button
     def book_appointment():
         selected_hospital = hospital_dropdown.get()
         hospital_url = hospitals.get(selected_hospital)
@@ -109,8 +82,7 @@ def handle_health_tips():
     tips_window.geometry('400x450')
     # tips_window.iconbitmap("D:\Python\Tkinter\healt_tips.ico")
     # bg image
-    bg_label = Label(tips_window, image=bg_photo)
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+    
     # Create a list of health tips with descriptions
     health_tips = {
         'Get plenty of sleep': 'Getting 7-8 hours of sleep each night is important for physical and mental health.',
@@ -155,9 +127,6 @@ def handle_check_me():
     check_me_window.geometry('400x350')
     # check_me_window.iconbitmap("D:\Python\Tkinter\check_me.ico")
     
-    bg_label = Label(check_me_window, image=bg_photo)
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
- 
     sugar_level_label = Label(check_me_window, text='Sugar Level:')
     sugar_level_label.grid(row=1, column=0, padx=10, pady=10)
     sugar_level_entry = Entry(check_me_window)
@@ -347,9 +316,6 @@ def handle_hospitals():
     hospitals_window.title("Hospitals Information")
     hospitals_window.geometry("500x400")
 
-    bg_label = Label(hospitals_window, image=bg_photo)
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-
     hospitals_listbox = Listbox(hospitals_window, height=10,width=45)
     hospitals_listbox.pack(padx=30)
 
@@ -364,8 +330,6 @@ def handle_hospitals():
         hospital_info.title(selected_hospital)
         hospital_info.geometry("600x400")
         
-        bg_label = Label(hospital_info, image=bg_photo)
-        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         # Table headers
         headers = ["Doctor Name", "Speciality", "OPD Day(OPD Timings)"]
         for i, header in enumerate(headers):
@@ -401,58 +365,11 @@ def hospital_nearme():
     webbrowser.open_new('https://www.google.com/maps/search/hospitals+near+me')
 
 root = Tk()
-# bg image
-bg_image = Image.open("D:\Python\Tkinter\img4.png")
-resized_image = bg_image.resize((700, 600))
-bg_photo = ImageTk.PhotoImage(resized_image)
-bg_label = Label(root, image=bg_photo)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-
 #  change title
 root.title('HealthCare')
-# to change icon
-# root.iconbitmap("D:\Python\Tkinter\icon.ico")
 root.geometry('700x600')
 root.configure()
-# image
-img = Image.open("D:\Python\Tkinter\hremove.png")
-resized_img = img.resize((100, 100))
-img = ImageTk.PhotoImage(resized_img)
-img_label = Label(root, image=img)
-img_label.pack(pady=(10, 5), padx=(120, 400))
-# heading
-text_label = Label(root, text='HealthCare', foreground='#0d2b45', background='#87CEEB')
-text_label.pack(pady=(20, 5), padx=(10, 300))
-text_label.config(font=('Helvetica', 24, 'bold'))
-# name
-name_label = Label(root, text='Enter Name', foreground='#0d2b45', background='#87CEEB')
-name_label.pack(pady=(15, 5), padx=(10, 300))
-name_label.config(font=('Helvetica', 16))
-
-name_input = Entry(root, width=50)
-name_input.pack(ipady=6, pady=(1, 15), padx=(10, 300))
-# email
-email_label = Label(root, text='Enter Email', foreground='#0d2b45', background='#87CEEB')
-email_label.pack(pady=(15, 5), padx=(10, 300))
-email_label.config(font=('Helvetica', 16))
-
-email_input = Entry(root, width=50)
-email_input.pack(ipady=6, pady=(1, 15), padx=(10, 300))
-# otp
-otp_label = Label(root, text='Enter OTP', foreground='#0d2b45', background='#87CEEB')
-otp_label.pack(pady=(15, 5), padx=(10, 300))
-otp_label.config(font=('Helvetica', 16))
-
-otp_input = Entry(root, width=50)
-otp_input.pack(ipady=6, pady=(1, 15), padx=(10, 300))
-# send otp button
-otp_btn = Button(root, text='Send OTP', bg='#0d2b45', fg='white', command=send_otp)
-otp_btn.pack(side=LEFT, pady=(15, 5), padx=(100, 20))
-otp_btn.config(font=('Helvetica', 14), relief='groove')
-# login button
-login_btn = Button(root, text='Login', bg='#0d2b45', fg='white', command=handle_login)
-login_btn.pack(side=LEFT, pady=(15, 5), padx=(20, 20))
-login_btn.config(font=('Helvetica', 14), relief='groove')
-
+appointments_btn = Button(root, text='HealtCare Assistant', bg='#0d2b45', fg='white',command=open_new_window)
+appointments_btn.pack(pady=(50, 20), padx=100)
+appointments_btn.config(font=('Helvetica', 16), relief='groove')
 root.mainloop()
-
